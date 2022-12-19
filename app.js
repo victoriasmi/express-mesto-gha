@@ -8,6 +8,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const validator = require('validator');
 const { login, createUser } = require('./controllers/users');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const auth = require('./middlewares/auth');
 const error = require('./middlewares/error');
 const BadRequestError = require('./errors/bad-request-err');
@@ -31,6 +32,9 @@ app.use(cookieParser());
 
 // подключаемся к серверу mongo
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
+
+app.use(requestLogger); // подключаем логгер запросов
+// за ним идут все обработчики роутов
 
 app.post(
   '/signin',
@@ -71,9 +75,8 @@ app.use(auth);
 app.use('/', require('./routes/users'));
 app.use('/', require('./routes/cards'));
 
-// app.use((req, res) => {
-//   res.status(401).send({ message: 'Необходима авторизация' });
-// });
+app.use(errorLogger); // подключаем логгер ошибок
+// errorLogger нужно подключить после обработчиков роутов и до обработчиков ошибок
 
 app.use(errors()); // обработчик ошибок celebrate
 app.use(error);// централизованный обработчик ошибок
