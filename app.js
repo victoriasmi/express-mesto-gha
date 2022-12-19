@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // подключаемся к серверу mongo
-mongoose.connect('mongodb://51.250.0.159:27017/mestodb');
+mongoose.connect('mongodb://localhost:27017/mestodb');
 
 app.post(
   '/signin',
