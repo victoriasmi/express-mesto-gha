@@ -7,32 +7,12 @@ const { errors } = require('celebrate');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const validator = require('validator');
-const { cors } = require('cors');
+const cors = require('cors');
 const { login, createUser } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const auth = require('./middlewares/auth');
 const error = require('./middlewares/error');
 const BadRequestError = require('./errors/bad-request-err');
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
-
-const app = express();
-const { PORT = 3000 } = process.env;
-
-// Apply the rate limiting middleware to all requests
-app.use(limiter);
-app.use(helmet());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
-
-// подключаемся к серверу mongo
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
 
 const options = {
   origin: [
@@ -47,7 +27,27 @@ const options = {
   credentials: true,
 };
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
+const app = express();
+const { PORT = 3000 } = process.env;
+
 app.use('*', cors(options));
+
+// Apply the rate limiting middleware to all requests
+app.use(limiter);
+app.use(helmet());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+// подключаемся к серверу mongo
+mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
 
 app.use(requestLogger); // подключаем логгер запросов
 // за ним идут все обработчики роутов
