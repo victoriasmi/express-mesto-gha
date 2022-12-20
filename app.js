@@ -7,6 +7,7 @@ const { errors } = require('celebrate');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const validator = require('validator');
+const { cors } = require('cors');
 const { login, createUser } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const auth = require('./middlewares/auth');
@@ -32,6 +33,20 @@ app.use(cookieParser());
 
 // подключаемся к серверу mongo
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
+
+const options = {
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://mestoproject.nomoredomains.club',
+  ],
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  preFlightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
+};
+
+app.use('*', cors(options));
 
 app.use(requestLogger); // подключаем логгер запросов
 // за ним идут все обработчики роутов
