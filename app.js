@@ -37,7 +37,7 @@ const limiter = rateLimit({
 const app = express();
 const { PORT = 3000 } = process.env;
 
-app.use('*', cors(options));
+app.use('*', cors());
 
 // Apply the rate limiting middleware to all requests
 app.use(limiter);
