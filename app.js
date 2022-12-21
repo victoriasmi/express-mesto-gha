@@ -18,7 +18,7 @@ const options = {
   origin: [
     'http://localhost:3000',
     'http://localhost:3001',
-    'http://mestoproject.nomoredomains.club',
+    'https://mestoproject.nomoredomains.club',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preFlightContinue: false,
