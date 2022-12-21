@@ -14,18 +14,18 @@ const auth = require('./middlewares/auth');
 const error = require('./middlewares/error');
 const BadRequestError = require('./errors/bad-request-err');
 
-const options = {
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'http://mestoproject.nomoredomains.club',
-  ],
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preFlightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
-  credentials: true,
-};
+// const options = {
+//   origin: [
+//     'http://localhost:3000',
+//     'http://localhost:3001',
+//     'http://mestoproject.nomoredomains.club',
+//   ],
+//   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+//   preFlightContinue: false,
+//   optionsSuccessStatus: 204,
+//   allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
+//   credentials: true,
+// };
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes

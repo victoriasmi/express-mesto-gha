@@ -109,7 +109,8 @@ module.exports.login = (req, res, next) => {
         httpOnly: true,
       });
       // вернём токен
-      return res.send({ token });
+      console.log(token);
+      return res.send(token);
     })
     .catch((err) => {
       console.log(err);
