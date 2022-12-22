@@ -111,7 +111,7 @@ module.exports.login = (req, res, next) => {
       });
       // вернём токен
       console.log(token);
-      return res.status(200).send(token, { token }, res.body);
+      return res.status(200).send({ jwt: token });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
