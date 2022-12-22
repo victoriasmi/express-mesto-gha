@@ -106,11 +106,9 @@ module.exports.login = (req, res, next) => {
         // token - наш JWT токен, который мы отправляем
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-        // sameSite: false,
-        // secure: true,
       })
-        // вернём токен
-        .status(200).send(req.user);
+        // вернём подтверждение
+        .status(200).send('Успешная авторизация');
     })
     .catch((err) => {
       if (err.name === 'CastError') {
