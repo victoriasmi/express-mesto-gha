@@ -28,7 +28,8 @@ module.exports = (req, res, next) => {
     // попытаемся верифицировать токен
     payload = jwt.verify(
       token,
-      NODE_ENV === 'production' ? JWT_SECRET : 'dev_secret',
+      // NODE_ENV === 'production' ? JWT_SECRET : 'dev_secret',
+      JWT_SECRET,
     );
   } catch (err) {
     next(new UnauthorizedError('Такого пользователя не существует.'));

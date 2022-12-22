@@ -1,7 +1,8 @@
 const bcrypt = require('bcryptjs'); // импортируем bcrypt
 const jwt = require('jsonwebtoken');
 
-const { JWT_SECRET = 'dev_secret' } = process.env;
+const { JWT_SECRET } = process.env;
+// = 'dev_secret'
 require('dotenv').config();
 const User = require('../models/user');
 const BadRequestError = require('../errors/bad-request-err');
