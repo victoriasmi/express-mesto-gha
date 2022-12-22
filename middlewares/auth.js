@@ -29,7 +29,7 @@ module.exports = (req, res, next) => {
     payload = jwt.verify(
       token,
       // NODE_ENV === 'production' ? JWT_SECRET : 'dev_secret',
-      JWT_SECRET,
+      'some-secret-key',
     );
   } catch (err) {
     next(new UnauthorizedError('Такого пользователя не существует.'));

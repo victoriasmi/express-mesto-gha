@@ -102,7 +102,7 @@ module.exports.login = (req, res, next) => {
       // аутентификация успешна! пользователь в переменной user
       const token = jwt.sign(
         { _id: user._id },
-        JWT_SECRET,
+        'some-secret-key',
         { expiresIn: '7d' },
       );
       // return res.cookie('jwt', token, {
