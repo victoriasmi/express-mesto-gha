@@ -113,6 +113,7 @@ module.exports.login = (req, res, next) => {
       // })
       // вернём токен
       res.status(200).send({ access_token: token });
+      next();
     })
     .catch((err) => {
       if (err.name === 'CastError') {

@@ -12,15 +12,17 @@ module.exports = (req, res, next) => {
   if (!authorization || !authorization.startsWith('Bearer ')) {
     throw new UnauthorizedError('Необходима авторизация.');
   }
+  // !authorization.startsWith('Bearer ')
   // const token = req.cookies.jwt;
   // if (!jwtCookies) {
   //   throw new ForbiddenError({ message: 'Такого пользователя не существует.' });
   // }
-
+  console.log(authorization);
   const token = authorization.replace('Bearer ', '');
-  // if (!token) {
-  //   throw new UnauthorizedError('Необходима авторизация.');
-  // }
+  console.log(token);
+  if (!token) {
+    throw new UnauthorizedError('Необходима авторизация.');
+  }
   let payload;
   try {
     // попытаемся верифицировать токен
