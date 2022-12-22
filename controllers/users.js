@@ -105,12 +105,12 @@ module.exports.login = (req, res, next) => {
       res.cookie('jwt', token, {
         // token - наш JWT токен, который мы отправляем
         maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
+        httpOnly: false,
         // sameSite: false,
         // secure: true,
       });
       // вернём токен
-      res.status(200).send(req.cookies.jwt);
+      res.status(200).send({ token });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
