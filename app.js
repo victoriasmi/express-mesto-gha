@@ -87,7 +87,7 @@ app.post(
 );
 
 // авторизация
-app.use(auth);
+// app.use(auth);
 
 app.use('/', require('./routes/users'));
 app.use('/', require('./routes/cards'));
