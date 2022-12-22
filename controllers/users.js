@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs'); // импортируем bcrypt
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = require('../config');
+
+const { JWT_SECRET = 'dev_secret' } = process.env;
 const User = require('../models/user');
 const BadRequestError = require('../errors/bad-request-err');
 const UnauthorizedError = require('../errors/unauthorized-err');
