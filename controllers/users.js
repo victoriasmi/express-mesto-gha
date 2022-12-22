@@ -110,7 +110,7 @@ module.exports.login = (req, res, next) => {
         // secure: true,
       });
       // вернём токен
-      res.status(200).send({ token });
+      res.status(200).send({ token, jwt });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
