@@ -94,7 +94,6 @@ module.exports.login = (req, res, next) => {
   User.findUserByCredentials(email, password)
     .then((user) => {
       if (!user) {
-        console.log(user);
         next(new UnauthorizedError('Ошибка аутентификации.'));
       }
       // аутентификация успешна! пользователь в переменной user
@@ -107,16 +106,14 @@ module.exports.login = (req, res, next) => {
         // token - наш JWT токен, который мы отправляем
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-        // sameSite: false,
-        // secure: true,
+        sameSite: false,
+        secure: true,
       });
       // вернём токен
       console.log(token);
-      console.log({ token });
-      return res.send({ token });
+      return res.status(200).send(req.body, res.body, token, { token });
     })
     .catch((err) => {
-      console.log(err);
       if (err.name === 'CastError') {
         next(new UnauthorizedError('Ошибка аутентификации.'));
       } else {
