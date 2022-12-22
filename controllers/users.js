@@ -102,13 +102,15 @@ module.exports.login = (req, res, next) => {
         JWT_SECRET,
         { expiresIn: '7d' },
       );
-      return res.cookie('jwt', token, {
-        // token - наш JWT токен, который мы отправляем
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-      })
-        // вернём подтверждение
-        .status(200).send('Успешная авторизация');
+      // return res.cookie('jwt', token, {
+      //   // token - наш JWT токен, который мы отправляем
+      //   maxAge: 3600000 * 24 * 7,
+      //   httpOnly: true,
+      //   sameSite: false,
+      //   secure: true,
+      // })
+      // вернём токен
+      res.status(200).send(token);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
