@@ -102,7 +102,7 @@ module.exports.login = (req, res, next) => {
         JWT_SECRET,
         { expiresIn: '7d' },
       );
-      return res.cookie('access_token', token, {
+      return res.cookie('jwt', token, {
         // token - наш JWT токен, который мы отправляем
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,

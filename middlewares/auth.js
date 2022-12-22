@@ -9,14 +9,14 @@ module.exports = (req, res, next) => {
   // const { authorization } = req.header;
   // убеждаемся, что он есть или начинается с Bearer
   // if (!authorization || !authorization.startsWith('Bearer ')) {
-  console.log(req.cookies.access_token);
+  console.log(req.cookies.jwt);
   // if (!jwtCookies) {
   //   throw new ForbiddenError({ message: 'Такого пользователя не существует.' });
   // }
   // извлечём токен
   // const token = authorization.replace('Bearer ', '');
 
-  const token = req.cookies.access_token;
+  const token = req.cookies.jwt;
   if (!token) {
     throw new UnauthorizedError('Необходима авторизация.');
   }
