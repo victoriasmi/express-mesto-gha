@@ -13,7 +13,7 @@ module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((users) => {
       if (!users) {
-        throw new NotFoundError('Пользователь по указанному _id не найден.');
+        next(new NotFoundError('Пользователь по указанному _id не найден.'));
       }
       res.status(200).send({ data: users });
     })
@@ -64,7 +64,7 @@ module.exports.createUser = (req, res, next) => {
   User.findOne({ email })// отрабатывает ли проверка?
     .then((mail) => {
       if (mail) {
-        throw new ConflictError('Пользователь с таким email уже существует.');
+        next(new ConflictError('Пользователь с таким email уже существует.'));
       } else {
         bcrypt.hash(req.body.password, 10)
           .then((hash) => User.create({
@@ -74,11 +74,11 @@ module.exports.createUser = (req, res, next) => {
             res.status(200).send({
               name, about, avatar, email,
             });
+            res.end();
           });
       }
     })
     .catch((err) => {
-      console.log(err);
       if (err.name === 'DuplicateKeyError' || err.name === 'RangeError') {
         next(new ConflictError('Пользователь с таким email уже существует.'));
       } else if (err.name === 'ValidationError') {
@@ -96,7 +96,7 @@ module.exports.login = (req, res, next) => {
   User.findUserByCredentials(email, password)
     .then((user) => {
       if (!user) {
-        next(new UnauthorizedError('Ошибка аутентификации.'));
+        return next(new UnauthorizedError('Ошибка аутентификации.'));
       }
       // аутентификация успешна! пользователь в переменной user
       const token = jwt.sign(
@@ -112,15 +112,14 @@ module.exports.login = (req, res, next) => {
       //   secure: true,
       // })
       // вернём токен
-      res.status(200).send({ access_token: token });
-      next();
+      res.status(200).send({ token });
+      return res.end();
     })
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new UnauthorizedError('Ошибка аутентификации.'));
-      } else {
-        next(err);
       }
+      return next(err);
     });
 };
 
@@ -148,7 +147,7 @@ module.exports.updateAvatar = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, { avatar }) //  { runValidators: true }
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь по указанному _id не найден.');
+        next(new NotFoundError('Пользователь по указанному _id не найден.'));
       }
       res.status(200).send(req.body);
     })

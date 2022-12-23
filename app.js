@@ -53,18 +53,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
 app.use(requestLogger); // подключаем логгер запросов
 // за ним идут все обработчики роутов
 
-app.post(
-  '/signin',
-  celebrate({
-    body: Joi.object().keys({
-      email: Joi.string().required().email(),
-      // .email({ tlds: { allow: false } }),
-      password: Joi.string().required(),
-    }),
-  }),
-  login,
-);
-
 const method = (value) => {
   const result = validator.isURL(value);
   if (result) {
@@ -86,8 +74,17 @@ app.post(
   createUser,
 );
 
-console.log(process.env.NODE_ENV);
-console.log(process.env.JWT_SECRET);
+app.post(
+  '/signin',
+  celebrate({
+    body: Joi.object().keys({
+      email: Joi.string().required().email(),
+      // .email({ tlds: { allow: false } }),
+      password: Joi.string().required(),
+    }),
+  }),
+  login,
+);
 
 // авторизация
 app.use(auth);
