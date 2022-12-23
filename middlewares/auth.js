@@ -10,19 +10,19 @@ module.exports = (req, res, next) => {
   if (!authorization || !authorization.startsWith('Bearer ')) {
     return next(new UnauthorizedError('No authorization'));
   }
-  // console.log({ auth: authorization });
+  console.log({ auth: authorization });
 
   const token = authorization.replace('Bearer ', '');
-  // console.log({ tok: token });
+  console.log({ tok: token });
 
   let payload;
   try {
     // попытаемся верифицировать токен
     payload = jwt.verify(
       token,
-      JWT_SECRET,
+      'some-secret-key',
     );
-    // console.log({ pay: payload });
+    console.log({ pay: payload });
   } catch (err) {
     next(new UnauthorizedError('Такого пользователя не существует.'));
   }
