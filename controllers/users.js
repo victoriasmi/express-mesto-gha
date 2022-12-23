@@ -74,7 +74,6 @@ module.exports.createUser = (req, res, next) => {
             res.status(200).send({
               name, about, avatar, email,
             });
-            res.end();
           });
       }
     })
@@ -131,7 +130,7 @@ module.exports.updateProfile = (req, res, next) => {
       next(new NotFoundError('Пользователь по указанному _id не найден.'));
     })
     .then(() => {
-      res.status(200).send(req.body);
+      res.status(200).send(req.user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -150,7 +149,7 @@ module.exports.updateAvatar = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Пользователь по указанному _id не найден.'));
       }
-      res.status(200).send(req.body);
+      res.status(200).send(req.user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
