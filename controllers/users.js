@@ -1,8 +1,7 @@
 const bcrypt = require('bcryptjs'); // импортируем bcrypt
 const jwt = require('jsonwebtoken');
 
-const { JWT_SECRET } = process.env;
-// = 'dev_secret'
+const { NODE_ENV, JWT_SECRET } = process.env;
 require('dotenv').config();
 const User = require('../models/user');
 const BadRequestError = require('../errors/bad-request-err');
@@ -102,7 +101,7 @@ module.exports.login = (req, res, next) => {
       // аутентификация успешна! пользователь в переменной user
       const token = jwt.sign(
         { _id: user._id },
-        'some-secret-key',
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev_secret',
         { expiresIn: '7d' },
       );
       // return res.cookie('jwt', token, {

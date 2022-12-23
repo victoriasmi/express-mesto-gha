@@ -86,8 +86,11 @@ app.post(
   createUser,
 );
 
+console.log(process.env.NODE_ENV);
+console.log(process.env.JWT_SECRET);
+
 // авторизация
-// app.use(auth);
+app.use(auth);
 
 app.use('/', require('./routes/users'));
 app.use('/', require('./routes/cards'));
