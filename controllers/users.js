@@ -125,12 +125,12 @@ module.exports.login = (req, res, next) => {
 
 module.exports.updateProfile = (req, res, next) => {
   const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about }) //  { runValidators: true }
+  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true }) //  { runValidators: true }
     .orFail(() => {
       next(new NotFoundError('Пользователь по указанному _id не найден.'));
     })
-    .then(() => {
-      res.status(200).send(req.user);
+    .then((user) => {
+      res.status(200).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -144,12 +144,12 @@ module.exports.updateProfile = (req, res, next) => {
 module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, { avatar }) //  { runValidators: true }
+  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true }) //  { runValidators: true }
     .then((user) => {
       if (!user) {
         next(new NotFoundError('Пользователь по указанному _id не найден.'));
       }
-      res.status(200).send(req.user);
+      res.status(200).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
