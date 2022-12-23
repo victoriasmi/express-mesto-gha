@@ -27,7 +27,7 @@ module.exports = (req, res, next) => {
     next(new UnauthorizedError('Такого пользователя не существует.'));
   }
   req.user = payload; // записываем пейлоуд в объект запроса
-  res.end();
+  // res.end();
   return next(); // пропускаем запрос дальше
 };
 
