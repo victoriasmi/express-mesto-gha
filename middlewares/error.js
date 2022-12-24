@@ -1,6 +1,4 @@
 module.exports = ((err, req, res, next) => {
-  res.status(err.statusCode).send({ message: err.message });
-
   if (err.statusCode === 400) {
     res.status(400).send({ message: 'Некорректные данные.' });
   }
@@ -8,6 +6,8 @@ module.exports = ((err, req, res, next) => {
   if (err.statusCode === 401) {
     res.status(401).send({ message: 'Необходима авторизация.' });
   }
+
+  res.status(err.statusCode).send({ message: err.message });
   // если у ошибки нет статуса, выставляем 500
   const { statusCode = 500, message } = err;
   res
@@ -18,5 +18,6 @@ module.exports = ((err, req, res, next) => {
         ? 'На сервере произошла ошибка'
         : message,
     });
+
   next();
 });

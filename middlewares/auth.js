@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
   const { authorization } = req.headers;
   // убеждаемся, что он есть или начинается с Bearer
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    return next(new UnauthorizedError('No authorization'));
+    next(new UnauthorizedError('No authorization'));
   }
   console.log({ auth: authorization });
 
@@ -28,7 +28,7 @@ module.exports = (req, res, next) => {
   }
   req.user = payload; // записываем пейлоуд в объект запроса
   // res.end();
-  return next(); // пропускаем запрос дальше
+  next(); // пропускаем запрос дальше
 };
 
 // const { JWT_SECRET = 'dev_secret' } = process.env;

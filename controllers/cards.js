@@ -17,15 +17,26 @@ module.exports.getCard = (req, res, next) => {
 
 module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
-
-  Card.create({ name, link, owner: req.user._id }, { new: true })
+  console.log(req.body);
+  console.log(req.user._id);
+  Card.create({ name, link, owner: req.user._id })
+  // { new: true }
     .then((card) => {
       if (!card) {
         throw new BadRequestError('Переданы некорректные данные.');
       }
       res.status(200).send({ data: card });
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'CastError' || err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные.'));
+      } else if (err.name === 'ResourceNotFound') {
+        next(new NotFoundError('Карточка с указанным _id не найдена.'));
+      } else {
+        next(new NotFoundError('Карточка с указанным _id не найдена.'));
+      }
+      next(err);
+    });
 };
 
 module.exports.deleteCard = (req, res, next) => {
