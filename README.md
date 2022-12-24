@@ -1,7 +1,10 @@
 [![Tests](../../actions/workflows/tests-13-sprint.yml/badge.svg)](../../actions/workflows/tests-13-sprint.yml) [![Tests](../../actions/workflows/tests-14-sprint.yml/badge.svg)](../../actions/workflows/tests-14-sprint.yml)
 # Проект Mesto фронтенд + бэкенд
 
-[Ссылка](https://github.com/victoriasmi/express-mesto-gha.git) на репозиторий.
+[Ссылка](https://github.com/victoriasmi/react-mesto-api-full.git) на репозиторий.
+Публичный IP-адрес сервера: 158.160.53.255
+URL сервера frontend: mestoproject.nomoredomains.club
+URL сервера backend: api.mestoproject.nomoredomains.club
 
 ## Директории
 

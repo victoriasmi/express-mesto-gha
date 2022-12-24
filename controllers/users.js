@@ -112,7 +112,6 @@ module.exports.login = (req, res, next) => {
       //   sameSite: false,
       //   secure: true,
       // })
-      // вернём токен
       res.status(200).send({ token });
       return res.end();
     })
