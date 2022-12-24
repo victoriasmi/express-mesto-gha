@@ -40,7 +40,8 @@ module.exports.createCard = (req, res, next) => {
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  Card.findById(req.params.cardId, { new: true })
+  Card.findById(req.params.cardId)
+  // { new: true }
     .then((data) => {
       if (data.owner._id.valueOf() === req.user._id) {
         Card.findByIdAndRemove(req.params.cardId)
