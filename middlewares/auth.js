@@ -14,13 +14,15 @@ module.exports = (req, res, next) => {
 
   const token = authorization.replace('Bearer ', '');
   console.log({ tok: token });
+  console.log(JWT_SECRET);
 
   let payload;
   try {
     // попытаемся верифицировать токен
     payload = jwt.verify(
       token,
-      'some-secret-key',
+      JWT_SECRET,
+      // 'some-secret-key',
     );
     console.log({ pay: payload });
   } catch (err) {

@@ -100,10 +100,11 @@ module.exports.login = (req, res, next) => {
       // аутентификация успешна! пользователь в переменной user
       const token = jwt.sign(
         { _id: user._id },
-        // NODE_ENV === 'production' ? JWT_SECRET : 'dev_secret',
-        'some-secret-key',
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev_secret',
+        // 'some-secret-key',
         { expiresIn: '7d' },
       );
+      console.log(JWT_SECRET);
       // return res.cookie('jwt', token, {
       //   // token - наш JWT токен, который мы отправляем
       //   maxAge: 3600000 * 24 * 7,
