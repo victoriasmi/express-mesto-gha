@@ -5,7 +5,8 @@ const ForbiddenError = require('../errors/forbidden-err');
 const NotFoundError = require('../errors/not-found-err');
 
 module.exports.getCard = (req, res, next) => {
-  Card.find({})
+  Card.find({}).sort({ createdAt: -1 })
+    // проверить
     .then((card) => {
       res.status(200).send({ data: card });
     })

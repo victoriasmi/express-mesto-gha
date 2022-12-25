@@ -21,9 +21,9 @@ module.exports.getUsers = (req, res, next) => {
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
-  const { _id } = req.user._id;
-  console.log(req.user._id);
-  console.log({ _id });
+  // const { _id } = req.user._id;
+  // console.log(req.user._id);
+  // console.log({ _id });
   User.findById(req.user._id)
     // .orFail(() => {
     //   next(new NotFoundError('Пользователь по указанному _id не найден.'));
