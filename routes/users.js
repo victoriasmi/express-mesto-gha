@@ -15,12 +15,20 @@ const method = (value) => {
 
 router.get('/users/me', getCurrentUser);
 router.get('/users', getUsers);
-router.get('/users/:userId', getUserById);
+router.get(
+  '/users/:userId',
+  celebrate({
+    params: Joi.object().keys({
+      userId: Joi.string().length(24).hex(),
+    }),
+  }),
+  getUserById,
+);
 router.patch(
   '/users/me/avatar',
   celebrate({
     body: Joi.object().keys({
-      avatar: Joi.string().required().custom(method),
+      avatar: Joi.string().required().custom(method), // вот проверка ссылки с validator.isURL()
     }),
   }),
   updateAvatar,

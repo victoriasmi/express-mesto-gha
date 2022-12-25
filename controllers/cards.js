@@ -9,14 +9,7 @@ module.exports.getCard = (req, res, next) => {
     .then((card) => {
       res.status(200).send({ data: card });
     })
-    .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные.'));
-      } else if (err.name === 'ResourceNotFound') {
-        next(new NotFoundError('Карточки не найдены.'));
-      }
-      next(err);
-    });
+    .catch(next);
 };
 
 module.exports.createCard = (req, res, next) => {
@@ -24,18 +17,11 @@ module.exports.createCard = (req, res, next) => {
   Card.create({ name, link, owner: req.user._id })
     // { new: true }
     .then((card) => {
-      if (!card) {
-        throw new BadRequestError('Переданы некорректные данные.');
-      }
       res.status(200).send({ data: card });
     })
     .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
+      if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные.'));
-      } else if (err.name === 'ResourceNotFound') {
-        next(new NotFoundError('Карточка с указанным _id не найдена.'));
-      } else {
-        next(new NotFoundError('Карточка с указанным _id не найдена.'));
       }
       next(err);
     });
@@ -43,6 +29,9 @@ module.exports.createCard = (req, res, next) => {
 
 module.exports.deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId)
+    .orFail(() => {
+      throw new NotFoundError('Карточка с указанным _id не найдена.');
+    })
     .then((data) => {
       if (data.owner.valueOf() === req.user._id) {
         Card.findByIdAndRemove(req.params.cardId, { new: true })
@@ -56,10 +45,6 @@ module.exports.deleteCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные.'));
-      } else if (err.name === 'ResourceNotFound') {
-        next(new NotFoundError('Карточка с указанным _id не найдена.'));
-      } else {
-        next(new NotFoundError('Карточка с указанным _id не найдена.'));
       }
       next(err);
     });
@@ -75,9 +60,6 @@ module.exports.likeCard = (req, res, next) => {
       throw new NotFoundError('Карточка с указанным _id не найдена.');
     })
     .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Карточка с указанным _id не найдена.');
-      }
       res.status(200).send({ card });
     })
     .catch((err) => {
