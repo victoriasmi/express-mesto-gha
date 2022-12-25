@@ -14,6 +14,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const auth = require('./middlewares/auth');
 const error = require('./middlewares/error');
 const BadRequestError = require('./errors/bad-request-err');
+const NotFoundError = require('./errors/not-found-err');
 
 const options = {
   origin: [
@@ -92,15 +93,15 @@ app.use(auth);
 app.use('/', require('./routes/users'));
 app.use('/', require('./routes/cards'));
 
+app.use((req, res, next) => {
+  next(new NotFoundError('Страница по указанному маршруту не найдена'));
+});
+
 app.use(errorLogger); // подключаем логгер ошибок
 // errorLogger нужно подключить после обработчиков роутов и до обработчиков ошибок
 
 app.use(errors()); // обработчик ошибок celebrate
 app.use(error);// централизованный обработчик ошибок
-
-app.use((req, res, next) => {
-  next(res.status(404).send({ message: 'Страница по указанному маршруту не найдена' }));
-});
 
 app.listen(PORT, () => {
   console.log(`app finally now listening to port ${PORT}`);
