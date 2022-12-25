@@ -78,7 +78,7 @@ module.exports.likeCard = (req, res, next) => {
       if (!card) {
         throw new NotFoundError('Карточка с указанным _id не найдена.');
       }
-      res.status(200).send({ data: card });
+      res.status(200).send({ card });
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
@@ -99,7 +99,7 @@ module.exports.dislikeCard = (req, res, next) => {
       next(new NotFoundError('Карточка с указанным _id не найдена.'));
     })
     .then((card) => {
-      res.status(200).send({ data: card });
+      res.status(200).send({ card });
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
