@@ -10,11 +10,11 @@ module.exports = (req, res, next) => {
   if (!authorization || !authorization.startsWith('Bearer ')) {
     next(new UnauthorizedError('No authorization'));
   }
-  console.log({ auth: authorization });
+  // console.log({ auth: authorization });
 
   const token = authorization.replace('Bearer ', '');
-  console.log({ tok: token });
-  console.log(JWT_SECRET);
+  // console.log({ tok: token });
+  // console.log(JWT_SECRET);
 
   let payload;
   try {
@@ -24,13 +24,13 @@ module.exports = (req, res, next) => {
       JWT_SECRET,
       // 'some-secret-key',
     );
-    console.log({ pay: payload });
+    // console.log({ pay: payload });
   } catch (err) {
     next(new UnauthorizedError('Такого пользователя не существует.'));
   }
   req.user = payload; // записываем пейлоуд в объект запроса
-  console.log(req.user);
-  console.log(req.user._id);
+  // console.log(req.user);
+  // console.log(req.user._id);
   // res.end();
   next(); // пропускаем запрос дальше
 };

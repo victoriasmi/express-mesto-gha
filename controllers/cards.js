@@ -6,7 +6,6 @@ const NotFoundError = require('../errors/not-found-err');
 
 module.exports.getCard = (req, res, next) => {
   Card.find({}).sort({ createdAt: -1 })
-    // проверить
     .then((card) => {
       res.status(200).send({ data: card });
     })

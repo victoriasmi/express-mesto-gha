@@ -21,24 +21,11 @@ module.exports.getUsers = (req, res, next) => {
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
-  // const { _id } = req.user._id;
-  // console.log(req.user._id);
-  // console.log({ _id });
   User.findById(req.user._id)
-    // .orFail(() => {
-    //   next(new NotFoundError('Пользователь по указанному _id не найден.'));
-    // })
     .then((user) => {
       res.status(200).send({ data: user });
     })
-    .catch((err) => {
-      // if (err.name === 'CastError' || err.name === 'ValidationError'
-      // || err.name === 'ResourceNotFound') {
-      //   next(new BadRequestError('Пользователь не найден.'));
-      // } else {
-      next(err);
-      // }
-    });
+    .catch(next);
 };
 
 module.exports.getUserById = (req, res, next) => {
@@ -104,23 +91,10 @@ module.exports.login = (req, res, next) => {
         // 'some-secret-key',
         { expiresIn: '7d' },
       );
-      console.log(JWT_SECRET);
-      // return res.cookie('jwt', token, {
-      //   // token - наш JWT токен, который мы отправляем
-      //   maxAge: 3600000 * 24 * 7,
-      //   httpOnly: true,
-      //   sameSite: false,
-      //   secure: true,
-      // })
       res.status(200).send({ token });
       return res.end();
     })
-    .catch((err) => {
-      // if (err.name === 'CastError') {
-      //   next(new UnauthorizedError('Ошибка аутентификации.'));
-      // }
-      next(err);
-    });
+    .catch(next);
 };
 
 module.exports.updateProfile = (req, res, next) => {
@@ -159,3 +133,12 @@ module.exports.updateAvatar = (req, res, next) => {
       }
     });
 };
+
+// console.log(JWT_SECRET);
+// return res.cookie('jwt', token, {
+//   // token - наш JWT токен, который мы отправляем
+//   maxAge: 3600000 * 24 * 7,
+//   httpOnly: true,
+//   sameSite: false,
+//   secure: true,
+// })

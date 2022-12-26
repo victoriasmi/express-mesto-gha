@@ -11,9 +11,7 @@ const cardSchema = new mongoose.Schema({
   link: {
     type: String, // имя — это строка
     required: true, // оно должно быть у каждого пользователя, так что имя — обязательное поле
-    // validate: {
-    //   validator: (v) => urlRegExp.test(v),
-    //   message: 'Поле "link" должно быть валидным url-адресом.',
+    // проверка в /cards/routes
     // },
   },
   owner: {
